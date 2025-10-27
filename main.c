@@ -6,13 +6,16 @@
 
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include "other.h"
+#include "lib/other.h"
 
 int main() {
     stdio_init_all();
+    while(true){
     do_other();
 #ifdef DO_EXTRA
     printf("A little extra\n");
 #endif
+sleep_ms(1000);
+    }
     return 0;
 }

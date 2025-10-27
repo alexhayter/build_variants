@@ -28,29 +28,29 @@ set(PICO_BOARD pico2 CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(build_variants C CXX ASM)
+project(build_variant1 C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(build_variants main.c )
+#add_executable(build_variants main.c )
 
-pico_set_program_name(build_variants "build_variants")
-pico_set_program_version(build_variants "0.1")
+#pico_set_program_name(build_variants "build_variants")
+#pico_set_program_version(build_variants "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(build_variants 0)
-pico_enable_stdio_usb(build_variants 0)
+#pico_enable_stdio_uart(build_variants 0)
+#pico_enable_stdio_usb(build_variants 0)
 
-#extra bits
+#1
 add_library(common_stuff INTERFACE)
 
 # note cmake policy is to use absolute paths for interface libraries.
 target_sources(common_stuff INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/main.c
-        ${CMAKE_CURRENT_LIST_DIR}/other.c
+        ${CMAKE_CURRENT_LIST_DIR}/lib/other.c
         )
 target_compile_definitions(common_stuff INTERFACE
         A_DEFINE_THAT_IS_SHARED=123
@@ -61,14 +61,18 @@ target_link_libraries(common_stuff INTERFACE
         pico_stdlib
         )
 
-# Add the standard include files to the build
-#target_include_directories(build_variants PRIVATE
-#        ${CMAKE_CURRENT_LIST_DIR}
-#)
+
 #2
-add_executable(build_variant1)
-target_link_libraries(build_variant1 common_stuff)
-target_compile_definitions(build_variant1 PRIVATE
-        A_DEFINE_THAT_IS_NOT_SHARED=456)
-pico_add_extra_outputs(build_variant1)
+#add_executable(build_variant1)
+#target_link_libraries(build_variant1 common_stuff)
+#target_compile_definitions(build_variant1 PRIVATE 
+#        A_DEFINE_THAT_IS_NOT_SHARED=456)
+#pico_add_extra_outputs(build_variant1)
+#3
+add_executable(build_variant2)
+target_link_libraries(build_variant2 common_stuff)
+target_compile_definitions(build_variant2 PRIVATE
+        A_DEFINE_THAT_IS_NOT_SHARED=789
+        DO_EXTRA)
+pico_add_extra_outputs(build_variant2)
 
