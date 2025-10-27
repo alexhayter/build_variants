@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(build_variants build_variants.cpp )
+add_executable(build_variants main.c )
 
 pico_set_program_name(build_variants "build_variants")
 pico_set_program_version(build_variants "0.1")
