@@ -62,9 +62,9 @@ target_link_libraries(common_stuff INTERFACE
         )
 
 # Add the standard include files to the build
-target_include_directories(build_variants PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
-)
+#target_include_directories(build_variants PRIVATE
+#        ${CMAKE_CURRENT_LIST_DIR}
+#)
 #2
 add_executable(build_variant1)
 target_link_libraries(build_variant1 common_stuff)
