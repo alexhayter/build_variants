@@ -44,14 +44,31 @@ pico_set_program_version(build_variants "0.1")
 pico_enable_stdio_uart(build_variants 0)
 pico_enable_stdio_usb(build_variants 0)
 
+#extra bits
+add_library(common_stuff INTERFACE)
+
+# note cmake policy is to use absolute paths for interface libraries.
+target_sources(common_stuff INTERFACE
+        ${CMAKE_CURRENT_LIST_DIR}/main.c
+        ${CMAKE_CURRENT_LIST_DIR}/other.c
+        )
+target_compile_definitions(common_stuff INTERFACE
+        A_DEFINE_THAT_IS_SHARED=123
+        )
+
 # Add the standard library to the build
-target_link_libraries(build_variants
-        pico_stdlib)
+target_link_libraries(common_stuff INTERFACE
+        pico_stdlib
+        )
 
 # Add the standard include files to the build
 target_include_directories(build_variants PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
-
-pico_add_extra_outputs(build_variants)
+#2
+add_executable(build_variant1)
+target_link_libraries(build_variant1 common_stuff)
+target_compile_definitions(build_variant1 PRIVATE
+        A_DEFINE_THAT_IS_NOT_SHARED=456)
+pico_add_extra_outputs(build_variant1)
 
